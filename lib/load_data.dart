@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:test_app/user.dart';
+import 'package:test_app/classes.dart';
 
 Future<List<User>> loadUsers() async {
   var uri = Uri.http('jsonplaceholder.typicode.com', '/users');

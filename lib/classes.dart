@@ -1,3 +1,6 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 class Company {
   String name = "";
   String catchPhrase = "";
@@ -67,4 +70,13 @@ class User {
         company = Company.fromJson(json["company"]),
         address = Address.fromJson(json["address"]));
   }
+}
+
+class SharedPrefs {
+  late SharedPreferences _prefs;
+
+  Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
 }

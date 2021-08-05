@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_app/load_users.dart';
-import 'package:test_app/user.dart';
+import 'package:test_app/load_data.dart';
+import 'package:test_app/classes.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,7 +61,7 @@ class _UsersPageState extends State<UsersPage> {
     try {
       var usersLoad = await loadUsers();
       setState(() {
-        users = usersLoad;
+        users = usersLoad.cast<User>();
       });
     } catch (exception) {
       setState(() {
