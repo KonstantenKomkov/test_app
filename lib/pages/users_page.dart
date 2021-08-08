@@ -1,8 +1,9 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_app/load_data.dart';
+
+// Project imports:
 import 'package:test_app/classes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UsersPage extends StatefulWidget {
   UsersPage({Key? key}) : super(key: key);
@@ -19,33 +20,18 @@ class _UsersPageState extends State<UsersPage> {
   bool isLoading = false;
   final sharedPrefs = SharedPrefs();
 
-  void loadData() async {
-    try {
-      var usersLoad = await loadUsers();
-      setState(() {
-        users = usersLoad;
-      });
-    } catch (exception) {
-      setState(() {
-        error = exception;
-        print("Oops, we catch warning: $error");
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     initSharedPrefs();
-    loadData();
   }
 
   Future<void> initSharedPrefs() async {
-    await SharedPrefs.init(); //???
     setState(() {
       isLoading = true;
     });
-    final _data = await sharedPrefs.getUsers(); //TODO:
+    await sharedPrefs.init();
+    final _data = await sharedPrefs.getUsers();
     setState(() {
       users = _data;
       isLoading = false;
