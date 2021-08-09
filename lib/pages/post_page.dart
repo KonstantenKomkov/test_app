@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:convert';
+
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,10 @@ class _PostPageState extends State<PostPage> {
   List<Comment>? comments;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   PersistentBottomSheetController? _controller;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _fieldNameCtr = TextEditingController();
+  TextEditingController _fieldEmailCtr = TextEditingController();
+  TextEditingController _fieldCommentCtr = TextEditingController();
 
   void toggleBottomSheet() {
     if (_controller == null) {
@@ -30,6 +37,38 @@ class _PostPageState extends State<PostPage> {
     } else {
       _controller!.close();
       _controller = null;
+    }
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState != null) {
+      if (_formKey.currentState!.validate()) {
+        Comment comment = Comment(
+          widget.post.id,
+          23242,
+          _fieldNameCtr.text,
+          _fieldEmailCtr.text,
+          _fieldCommentCtr.text,
+        );
+        print(json.encode(comment));
+      }
+    }
+  }
+
+  String? _validateEmail(value) {
+    if (value == '')
+      return 'Input your email';
+    else {
+      bool correctEmail = false;
+      value.split('').forEach((_symbol) {
+        if (_symbol == '@') {
+          correctEmail = true;
+        }
+      });
+      if (correctEmail)
+        return null;
+      else
+        return 'Incorrect email';
     }
   }
 
@@ -175,51 +214,49 @@ class _PostPageState extends State<PostPage> {
           padding: const EdgeInsets.all(
             kDefaultPadding * 2,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              _buildTextField(context, 'name'),
-              _buildTextField(context, 'email'),
-              _buildTextField(context, 'comment'),
-              Padding(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Send"),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextFormField(
+                  controller: _fieldNameCtr,
+                  decoration: InputDecoration(labelText: 'name'),
+                  validator: (value) {
+                    if (value == '')
+                      return 'Input your name';
+                    else
+                      return null;
+                  },
                 ),
-              )
-            ],
+                TextFormField(
+                  controller: _fieldEmailCtr,
+                  decoration: InputDecoration(labelText: 'email'),
+                  validator: _validateEmail,
+                ),
+                TextFormField(
+                  controller: _fieldCommentCtr,
+                  decoration: InputDecoration(labelText: 'comment'),
+                  validator: (value) {
+                    if (value == '')
+                      return 'Input your comment';
+                    else
+                      return null;
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding),
+                  child: ElevatedButton(
+                    onPressed: _submitForm,
+                    child: Text("Send"),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
       onClosing: () {},
-    );
-  }
-
-  Widget _buildTextField(BuildContext context, String name) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Input your $name',
-          labelText: name,
-          labelStyle: TextStyle(color: Colors.blueGrey),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.0),
-            borderSide: BorderSide(
-              color: Colors.blueGrey,
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.0),
-            borderSide: BorderSide(
-              color: Colors.blueGrey,
-              width: 2.0,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
