@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:test_app/classes.dart';
 import 'package:test_app/helpers/album_preview.dart';
+import 'package:test_app/helpers/get_logo_by_id.dart';
 
 class AlbumsPage extends StatefulWidget {
   static const routeName = '/albums';
@@ -16,6 +17,7 @@ class AlbumsPage extends StatefulWidget {
 }
 
 class _AlbumsPageState extends State<AlbumsPage> {
+  Map<int, String> albumsLogo = {};
   List<Album>? albums;
   bool isLoading = false;
   final sharedPrefs = SharedPrefs();
@@ -26,14 +28,25 @@ class _AlbumsPageState extends State<AlbumsPage> {
     initSharedPrefs();
   }
 
+  Future<Map<int, String>> getThumbnail(List<Album> albums) async {
+    Map<int, String> _map = {};
+    for (Album album in albums) {
+      var _photos = await sharedPrefs.getPhotos(album.id);
+      _map[album.id] = _photos[0].thumbnailUrl;
+    }
+    return _map;
+  }
+
   Future<void> initSharedPrefs() async {
     setState(() {
       isLoading = true;
     });
     await sharedPrefs.init();
-    final _data = await sharedPrefs.getAlbums(widget.user.id);
+    final _albums = await sharedPrefs.getAlbums(widget.user.id);
+    final _albumsLogo = await getThumbnail(_albums);
     setState(() {
-      albums = _data;
+      albums = _albums;
+      albumsLogo = _albumsLogo;
       isLoading = false;
     });
   }
@@ -61,8 +74,8 @@ class _AlbumsPageState extends State<AlbumsPage> {
       return ListView.separated(
         itemCount: albums.length,
         separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemBuilder: (BuildContext context, index) =>
-            buildAlbumPreview(context, albums[index]),
+        itemBuilder: (BuildContext context, index) => buildAlbumPreview(context,
+            albums[index], getThumbnailUrlById(albums[index].id, albumsLogo)),
       );
     }
   }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:test_app/classes.dart';
 import 'package:test_app/constants.dart';
 import 'package:test_app/helpers/album_preview.dart';
+import 'package:test_app/helpers/get_logo_by_id.dart';
 import 'package:test_app/helpers/post_preview.dart';
 import 'package:test_app/helpers/text_element.dart';
 
@@ -23,12 +24,21 @@ class _UserPageState extends State<UserPage> {
   final sharedPrefs = SharedPrefs();
   List<Post>? posts;
   List<Album>? albums;
-  List<Photo>? photos;
+  Map<int, String> albumsLogo = {};
 
   @override
   void initState() {
     super.initState();
     initSharedPrefs();
+  }
+
+  Future<Map<int, String>> getThumbnail(List<Album> albums) async {
+    Map<int, String> _map = {};
+    for (Album album in albums) {
+      var _photos = await sharedPrefs.getPhotos(album.id);
+      _map[album.id] = _photos[0].thumbnailUrl;
+    }
+    return _map;
   }
 
   Future<void> initSharedPrefs() async {
@@ -38,10 +48,12 @@ class _UserPageState extends State<UserPage> {
     await sharedPrefs.init();
     final _posts = await sharedPrefs.getPosts(widget.user.id);
     final _albums = await sharedPrefs.getAlbums(widget.user.id);
-    final _photos = await sharedPrefs.getPhotos(widget.user.id);
+    final _albumsLogo = await getThumbnail(_albums);
+
     setState(() {
       posts = _posts;
       albums = _albums;
+      albumsLogo = _albumsLogo;
       isLoading = false;
     });
   }
@@ -135,7 +147,8 @@ class _UserPageState extends State<UserPage> {
                   Icons.album,
                 ),
                 ...currentAlbums
-                    .map<Widget>((album) => buildAlbumPreview(context, album))
+                    .map<Widget>((album) => buildAlbumPreview(context, album,
+                        getThumbnailUrlById(album.id, albumsLogo)))
                     .toList(),
                 _buildButton(context, widget.user, '/albums', 'View more'),
               ],
