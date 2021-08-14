@@ -9,7 +9,7 @@ import 'package:test_app/helpers/post_preview.dart';
 class PostsPage extends StatefulWidget {
   static const routeName = '/posts';
   final User user;
-  PostsPage({Key? key, required this.user}) : super(key: key);
+  const PostsPage({Key? key, required this.user}) : super(key: key);
 
   @override
   _PostsPageState createState() => _PostsPageState();
@@ -54,7 +54,7 @@ class _PostsPageState extends State<PostsPage> {
 
   Widget _buildViewList(BuildContext context, List<Post>? posts) {
     if (posts == null) {
-      return Center(
+      return const Center(
         child: Text('Loading...'),
       );
     } else {

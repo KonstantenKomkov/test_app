@@ -24,14 +24,14 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(builder: (BuildContext context) {
-          return NotFound();
+          return const NotFound();
         });
       },
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case UsersPage.routeName:
             return MaterialPageRoute(builder: (BuildContext context) {
-              return UsersPage();
+              return const UsersPage();
             });
           case UserPage.routeName:
             final user = settings.arguments as User;
@@ -60,14 +60,13 @@ class MyApp extends StatelessWidget {
             });
           default:
             return MaterialPageRoute(builder: (BuildContext context) {
-              return NotFound();
+              return const NotFound();
             });
         }
       },
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      //home: UsersPage(title: 'Users'),
     );
   }
 }

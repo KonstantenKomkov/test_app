@@ -11,7 +11,7 @@ import 'package:test_app/constants.dart';
 
 class AlbumPage extends StatefulWidget {
   static const routeName = '/album';
-  AlbumPage({Key? key, required this.album}) : super(key: key);
+  const AlbumPage({Key? key, required this.album}) : super(key: key);
   final Album album;
 
   @override
@@ -47,7 +47,7 @@ class _AlbumPageState extends State<AlbumPage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('${widget.album.title}'),
+          title: Text(widget.album.title),
         ),
         body: carouselSlider(context, photos),
       ),
@@ -61,7 +61,7 @@ class _AlbumPageState extends State<AlbumPage> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: Colors.black,
-          child: Center(
+          child: const Center(
             child: Text(
               'Loading...',
               style: TextStyle(
@@ -79,25 +79,22 @@ class _AlbumPageState extends State<AlbumPage> {
             options: CarouselOptions(
               height: height,
               viewportFraction: 1.0,
-              enlargeCenterPage: false,
               // autoPlay: false,
             ),
             items: photos
                 .map((photo) => Stack(children: [
-                      Container(
-                        child: Center(
-                            child: Image.network(
-                          photo.url,
-                          fit: BoxFit.cover,
-                          height: height,
-                        )),
-                      ),
+                      Center(
+                          child: Image.network(
+                        photo.url,
+                        fit: BoxFit.cover,
+                        height: height,
+                      )),
                       Positioned(
                         child: Padding(
                           padding: const EdgeInsets.all(kDefaultPadding * 2),
                           child: Text(
-                            '${photo.title}',
-                            style: TextStyle(
+                            photo.title,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

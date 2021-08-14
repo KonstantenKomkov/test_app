@@ -10,7 +10,7 @@ import 'package:test_app/helpers/get_logo_by_id.dart';
 class AlbumsPage extends StatefulWidget {
   static const routeName = '/albums';
   final User user;
-  AlbumsPage({Key? key, required this.user}) : super(key: key);
+  const AlbumsPage({Key? key, required this.user}) : super(key: key);
 
   @override
   _AlbumsPageState createState() => _AlbumsPageState();
@@ -29,9 +29,9 @@ class _AlbumsPageState extends State<AlbumsPage> {
   }
 
   Future<Map<int, String>> getThumbnail(List<Album> albums) async {
-    Map<int, String> _map = {};
-    for (Album album in albums) {
-      var _photos = await sharedPrefs.getPhotos(album.id);
+    final Map<int, String> _map = {};
+    for (final Album album in albums) {
+      final _photos = await sharedPrefs.getPhotos(album.id);
       _map[album.id] = _photos[0].thumbnailUrl;
     }
     return _map;
@@ -67,13 +67,13 @@ class _AlbumsPageState extends State<AlbumsPage> {
 
   Widget _buildViewList(BuildContext context, List<Album>? albums) {
     if (albums == null) {
-      return Center(
+      return const Center(
         child: Text('Loading...'),
       );
     } else {
       return ListView.separated(
         itemCount: albums.length,
-        separatorBuilder: (BuildContext context, int index) => Divider(),
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, index) => buildAlbumPreview(context,
             albums[index], getThumbnailUrlById(albums[index].id, albumsLogo)),
       );

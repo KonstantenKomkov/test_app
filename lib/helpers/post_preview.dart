@@ -15,12 +15,12 @@ Widget buildPostPreview(BuildContext context, Post post) {
     },
     title: Text(
       '${post.title[0].toUpperCase()}${post.title.substring(1)}',
-      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
     ),
     subtitle: Text(
-      '${post.body}',
+      post.body,
       maxLines: 1,
     ),
-    trailing: Icon(Icons.comment),
+    trailing: const Icon(Icons.comment),
   );
 }

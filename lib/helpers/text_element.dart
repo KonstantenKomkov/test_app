@@ -7,7 +7,7 @@ Widget buildTextElement(
   BuildContext context,
   String text,
   double _fontSize, [
-  _fontWeight = FontWeight.normal,
+  FontWeight? _fontWeight = FontWeight.normal,
   double paddingLeft = 0.0,
   double paddingTop = 0.0,
   double paddingRight = 0.0,

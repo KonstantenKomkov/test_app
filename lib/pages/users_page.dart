@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:test_app/classes.dart';
 
 class UsersPage extends StatefulWidget {
-  UsersPage({Key? key}) : super(key: key);
+  const UsersPage({Key? key}) : super(key: key);
 
   static const routeName = '/';
 
@@ -44,7 +44,7 @@ class _UsersPageState extends State<UsersPage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Users'),
+          title: const Text('Users'),
         ),
         body: Container(
           child: _usersListView(context, users),
@@ -57,7 +57,7 @@ class _UsersPageState extends State<UsersPage> {
     if (users != null) {
       return ListView.separated(
         itemCount: users.length,
-        separatorBuilder: (BuildContext context, int index) => Divider(),
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, int index) =>
             _buildUsersCard(context, users[index]),
       );
@@ -67,7 +67,7 @@ class _UsersPageState extends State<UsersPage> {
         style: Theme.of(context).textTheme.headline4,
       );
     } else {
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
   }
 
@@ -85,14 +85,14 @@ class _UsersPageState extends State<UsersPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: 36.0,
                   bottom: 36.0,
                   top: 18.0,
                 ),
                 child: Text(
-                  '${user.userName}',
-                  style: TextStyle(
+                  user.userName,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -102,7 +102,7 @@ class _UsersPageState extends State<UsersPage> {
             Positioned(
               left: 52,
               top: 52,
-              child: Text('${user.name}'),
+              child: Text(user.name),
             ),
           ],
         ),

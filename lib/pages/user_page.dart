@@ -12,7 +12,7 @@ import 'package:test_app/helpers/text_element.dart';
 
 class UserPage extends StatefulWidget {
   static const routeName = '/user';
-  UserPage({Key? key, required this.user}) : super(key: key);
+  const UserPage({Key? key, required this.user}) : super(key: key);
   final User user;
 
   @override
@@ -33,9 +33,9 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<Map<int, String>> getThumbnail(List<Album> albums) async {
-    Map<int, String> _map = {};
-    for (Album album in albums) {
-      var _photos = await sharedPrefs.getPhotos(album.id);
+    final Map<int, String> _map = {};
+    for (final Album album in albums) {
+      final _photos = await sharedPrefs.getPhotos(album.id);
       _map[album.id] = _photos[0].thumbnailUrl;
     }
     return _map;
@@ -60,111 +60,112 @@ class _UserPageState extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
-    List currentPosts = findElements(posts, widget.user, 3);
-    List currentAlbums = findElements(albums, widget.user, 3);
+    final List currentPosts = findElements(posts, widget.user, 3);
+    final List currentAlbums = findElements(albums, widget.user, 3);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('${widget.user.userName}'),
+          title: Text(widget.user.userName),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildTextElement(
-                  context,
-                  widget.user.name,
-                  24,
-                  FontWeight.bold,
-                  kDefaultPadding * 2,
-                  kDefaultPadding * 2,
-                ),
-                buildTextElement(
-                  context,
-                  widget.user.email.toLowerCase(),
-                  18,
-                  FontWeight.w300,
-                  kDefaultPadding * 2,
-                  kDefaultPadding,
-                ),
-                _buildRichTextElement(
-                  context,
-                  'Phone: ',
-                  widget.user.phone,
-                ),
-                _buildRichTextElement(
-                  context,
-                  'Website: ',
-                  widget.user.website,
-                ),
-                _buildHeader(
-                  context,
-                  'Company:',
-                  Icons.work,
-                ),
-                _buildRichTextElement(
-                  context,
-                  'Name: ',
-                  widget.user.company.name,
-                ),
-                _buildRichTextElement(
-                  context,
-                  'Bs: ',
-                  widget.user.company.bs,
-                ),
-                _buildRichTextElement(
-                  context,
-                  'Catch phrase: ',
-                  '— "${widget.user.company.catchPhrase}" —',
-                  FontStyle.italic,
-                ),
-                _buildHeader(
-                  context,
-                  'Address:',
-                  Icons.location_on,
-                ),
-                buildTextElement(
-                  context,
-                  '${widget.user.address.city}, ${widget.user.address.street}, ${widget.user.address.suite}, ${widget.user.address.zipcode}',
-                  14,
-                  FontWeight.normal,
-                  kDefaultPadding * 2,
-                ),
-                _buildHeader(
-                  context,
-                  'Posts:',
-                  Icons.message,
-                ),
-                ...currentPosts
-                    .map<Widget>((post) => buildPostPreview(context, post))
-                    .toList(),
-                _buildButton(context, widget.user, '/posts', 'View more'),
-                _buildHeader(
-                  context,
-                  'Albums:',
-                  Icons.album,
-                ),
-                ...currentAlbums
-                    .map<Widget>((album) => buildAlbumPreview(context, album,
-                        getThumbnailUrlById(album.id, albumsLogo)))
-                    .toList(),
-                _buildButton(context, widget.user, '/albums', 'View more'),
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildTextElement(
+                context,
+                widget.user.name,
+                24,
+                FontWeight.bold,
+                kDefaultPadding * 2,
+                kDefaultPadding * 2,
+              ),
+              buildTextElement(
+                context,
+                widget.user.email.toLowerCase(),
+                18,
+                FontWeight.w300,
+                kDefaultPadding * 2,
+                kDefaultPadding,
+              ),
+              _buildRichTextElement(
+                context,
+                'Phone: ',
+                widget.user.phone,
+              ),
+              _buildRichTextElement(
+                context,
+                'Website: ',
+                widget.user.website,
+              ),
+              _buildHeader(
+                context,
+                'Company:',
+                Icons.work,
+              ),
+              _buildRichTextElement(
+                context,
+                'Name: ',
+                widget.user.company.name,
+              ),
+              _buildRichTextElement(
+                context,
+                'Bs: ',
+                widget.user.company.bs,
+              ),
+              _buildRichTextElement(
+                context,
+                'Catch phrase: ',
+                '— "${widget.user.company.catchPhrase}" —',
+                FontStyle.italic,
+              ),
+              _buildHeader(
+                context,
+                'Address:',
+                Icons.location_on,
+              ),
+              buildTextElement(
+                context,
+                '${widget.user.address.city}, ${widget.user.address.street}, ${widget.user.address.suite}, ${widget.user.address.zipcode}',
+                14,
+                FontWeight.normal,
+                kDefaultPadding * 2,
+              ),
+              _buildHeader(
+                context,
+                'Posts:',
+                Icons.message,
+              ),
+              ...currentPosts
+                  .map<Widget>(
+                      (post) => buildPostPreview(context, post as Post))
+                  .toList(),
+              _buildButton(context, widget.user, '/posts', 'View more'),
+              _buildHeader(
+                context,
+                'Albums:',
+                Icons.album,
+              ),
+              ...currentAlbums
+                  .map<Widget>((album) => buildAlbumPreview(
+                      context,
+                      album as Album,
+                      getThumbnailUrlById(album.id, albumsLogo)))
+                  .toList(),
+              _buildButton(context, widget.user, '/albums', 'View more'),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, String title, icon) {
+  Widget _buildHeader(BuildContext context, String title, IconData? icon) {
     return ListTile(
       leading: Icon(icon),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
         ),
@@ -174,7 +175,7 @@ class _UserPageState extends State<UserPage> {
 
   Widget _buildRichTextElement(
       BuildContext context, String boldText, String text,
-      [dynamic fontStyle = FontStyle.normal]) {
+      [FontStyle? fontStyle = FontStyle.normal]) {
     return Padding(
       padding: const EdgeInsets.only(
         left: kDefaultPadding * 2,
@@ -184,7 +185,7 @@ class _UserPageState extends State<UserPage> {
         TextSpan(children: [
           TextSpan(
             text: boldText,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(text: text, style: TextStyle(fontStyle: fontStyle)),
         ]),
@@ -195,8 +196,8 @@ class _UserPageState extends State<UserPage> {
   List<dynamic> findElements(List<dynamic>? elements, User user,
       [int? countElements]) {
     if (elements != null) {
-      List<dynamic> usersElements = [];
-      for (var item in elements) {
+      final List<dynamic> usersElements = [];
+      for (final item in elements) {
         if (item.userId == user.id) {
           usersElements.add(item);
         }
@@ -218,7 +219,7 @@ class _UserPageState extends State<UserPage> {
       child: Padding(
         padding: const EdgeInsets.all(kDefaultPadding * 2),
         child: ConstrainedBox(
-          constraints: BoxConstraints.tightFor(width: 140),
+          constraints: const BoxConstraints.tightFor(width: 140),
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushNamed(
@@ -229,7 +230,7 @@ class _UserPageState extends State<UserPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Icon(Icons.remove_red_eye),
+                const Icon(Icons.remove_red_eye),
                 Text(text),
               ],
             ),

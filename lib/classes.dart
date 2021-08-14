@@ -30,8 +30,8 @@ class Geo {
   Geo(this.latitude, this.longitude);
 
   Geo.fromJson(Map<String, dynamic> json) {
-    Geo(latitude = double.parse(json["lat"]),
-        longitude = double.parse(json["lng"]));
+    Geo(latitude = double.parse(json["lat"] as String),
+        longitude = double.parse(json["lng"] as String));
   }
 }
 
@@ -50,7 +50,7 @@ class Address {
         suite = json["suite"] as String,
         city = json["city"] as String,
         zipcode = json["zipcode"] as String,
-        geo = Geo.fromJson(json["geo"]));
+        geo = Geo.fromJson(json["geo"] as Map<String, dynamic>));
   }
 }
 
@@ -75,8 +75,8 @@ class User {
         email = json["email"] as String,
         phone = json["phone"] as String,
         website = json["website"] as String,
-        company = Company.fromJson(json["company"]),
-        address = Address.fromJson(json["address"]));
+        company = Company.fromJson(json["company"] as Map<String, dynamic>),
+        address = Address.fromJson(json["address"] as Map<String, dynamic>));
   }
 }
 
@@ -200,19 +200,20 @@ class SharedPrefs {
 
   Future<List<User>> getUsers() async {
     if (!_prefs.containsKey('myUsers')) {
-      var usersLoad = await loadData('/users');
+      final usersLoad = await loadData('/users');
       _prefs.setString('myUsers', usersLoad);
     }
 
     final fileData = _prefs.getString('myUsers');
     final fileDataDecode = fileData != null ? jsonDecode(fileData) : [];
-    final List<User> array =
-        fileDataDecode.map<User>((user) => User.fromJson(user)).toList();
+    final List<User> array = fileDataDecode
+        .map<User>((user) => User.fromJson(user as Map<String, dynamic>))
+        .toList() as List<User>;
     return array;
   }
 
   Future<List<Post>> getPosts(int userId) async {
-    var postsLoad;
+    String postsLoad;
 
     if (!_prefs.containsKey('myPosts')) {
       postsLoad = await loadData('/users/$userId/posts');
@@ -221,10 +222,11 @@ class SharedPrefs {
 
     final fileData = _prefs.getString('myPosts');
     final fileDataDecode = fileData != null ? jsonDecode(fileData) : [];
-    List<Post> array =
-        fileDataDecode.map<Post>((post) => Post.fromJson(post)).toList();
+    final List<Post> array = fileDataDecode
+        .map<Post>((post) => Post.fromJson(post as Map<String, dynamic>))
+        .toList() as List<Post>;
     List<Post> usersPosts = [];
-    for (Post post in array) {
+    for (final Post post in array) {
       if (post.userId == userId) {
         usersPosts.add(post);
       }
@@ -233,9 +235,10 @@ class SharedPrefs {
     if (usersPosts.isEmpty) {
       postsLoad = await loadData('/users/$userId/posts');
       final newLoadedPosts = jsonDecode(postsLoad);
-      usersPosts =
-          newLoadedPosts.map<Post>((post) => Post.fromJson(post)).toList();
-      for (Post post in usersPosts) {
+      usersPosts = newLoadedPosts
+          .map<Post>((post) => Post.fromJson(post as Map<String, dynamic>))
+          .toList() as List<Post>;
+      for (final Post post in usersPosts) {
         array.add(post);
       }
       final listPostsString = jsonEncode(array);
@@ -245,7 +248,7 @@ class SharedPrefs {
   }
 
   Future<List<Comment>> getComments(int postId) async {
-    var commentsLoad;
+    String commentsLoad;
 
     if (!_prefs.containsKey('myComments')) {
       commentsLoad = await loadData('/post/$postId/comments');
@@ -254,11 +257,12 @@ class SharedPrefs {
 
     final fileData = _prefs.getString('myComments');
     final fileDataDecode = fileData != null ? jsonDecode(fileData) : [];
-    List<Comment> array = fileDataDecode
-        .map<Comment>((comment) => Comment.fromJson(comment))
-        .toList();
+    final List<Comment> array = fileDataDecode
+        .map<Comment>(
+            (comment) => Comment.fromJson(comment as Map<String, dynamic>))
+        .toList() as List<Comment>;
     List<Comment> postsComments = [];
-    for (Comment comment in array) {
+    for (final Comment comment in array) {
       if (comment.postId == postId) {
         postsComments.add(comment);
       }
@@ -268,9 +272,10 @@ class SharedPrefs {
       commentsLoad = await loadData('/post/$postId/comments');
       final newLoadedComments = jsonDecode(commentsLoad);
       postsComments = newLoadedComments
-          .map<Comment>((comment) => Comment.fromJson(comment))
-          .toList();
-      for (Comment comment in postsComments) {
+          .map<Comment>(
+              (comment) => Comment.fromJson(comment as Map<String, dynamic>))
+          .toList() as List<Comment>;
+      for (final Comment comment in postsComments) {
         array.add(comment);
       }
       final listCommentsString = jsonEncode(array);
@@ -280,7 +285,7 @@ class SharedPrefs {
   }
 
   Future<List<Album>> getAlbums(int userId) async {
-    var albumsLoad;
+    String albumsLoad;
 
     if (!_prefs.containsKey('myAlbums')) {
       albumsLoad = await loadData('/users/$userId/albums');
@@ -289,10 +294,11 @@ class SharedPrefs {
 
     final fileData = _prefs.getString('myAlbums');
     final fileDataDecode = fileData != null ? jsonDecode(fileData) : [];
-    List<Album> array =
-        fileDataDecode.map<Album>((album) => Album.fromJson(album)).toList();
+    final List<Album> array = fileDataDecode
+        .map<Album>((album) => Album.fromJson(album as Map<String, dynamic>))
+        .toList() as List<Album>;
     List<Album> usersAlbums = [];
-    for (Album album in array) {
+    for (final Album album in array) {
       if (album.userId == userId) {
         usersAlbums.add(album);
       }
@@ -302,9 +308,9 @@ class SharedPrefs {
       albumsLoad = await loadData('/users/$userId/albums');
       final newLoadedComments = jsonDecode(albumsLoad);
       usersAlbums = newLoadedComments
-          .map<Album>((album) => Album.fromJson(album))
-          .toList();
-      for (Album album in usersAlbums) {
+          .map<Album>((album) => Album.fromJson(album as Map<String, dynamic>))
+          .toList() as List<Album>;
+      for (final Album album in usersAlbums) {
         array.add(album);
       }
       final listCommentsString = jsonEncode(array);
@@ -314,7 +320,7 @@ class SharedPrefs {
   }
 
   Future<List<Photo>> getPhotos(int albumId) async {
-    var photosLoad;
+    String photosLoad;
 
     if (!_prefs.containsKey('myPhotos')) {
       photosLoad = await loadData('/albums/$albumId/photos');
@@ -323,10 +329,11 @@ class SharedPrefs {
 
     final fileData = _prefs.getString('myPhotos');
     final fileDataDecode = fileData != null ? jsonDecode(fileData) : [];
-    List<Photo> array =
-        fileDataDecode.map<Photo>((photo) => Photo.fromJson(photo)).toList();
+    final List<Photo> array = fileDataDecode
+        .map<Photo>((photo) => Photo.fromJson(photo as Map<String, dynamic>))
+        .toList() as List<Photo>;
     List<Photo> albumsPhoto = [];
-    for (Photo photo in array) {
+    for (final Photo photo in array) {
       if (photo.albumId == albumId) {
         albumsPhoto.add(photo);
       }
@@ -336,9 +343,9 @@ class SharedPrefs {
       photosLoad = await loadData('/albums/$albumId/photos');
       final newLoadedComments = jsonDecode(photosLoad);
       albumsPhoto = newLoadedComments
-          .map<Photo>((photo) => Photo.fromJson(photo))
-          .toList();
-      for (Photo photo in albumsPhoto) {
+          .map<Photo>((photo) => Photo.fromJson(photo as Map<String, dynamic>))
+          .toList() as List<Photo>;
+      for (final Photo photo in albumsPhoto) {
         array.add(photo);
       }
       final listCommentsString = jsonEncode(array);

@@ -19,7 +19,7 @@ Widget buildAlbumPreview(BuildContext context, Album album, String logo) {
     ),
     title: Text(
       '${album.title[0].toUpperCase()}${album.title.substring(1)}',
-      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
     ),
   );
 }
