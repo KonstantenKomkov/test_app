@@ -1,5 +1,5 @@
 // Dart imports:
-import 'dart:convert';
+// import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
@@ -12,7 +12,7 @@ import 'package:test_app/helpers/text_element.dart';
 
 class PostPage extends StatefulWidget {
   static const routeName = '/post';
-  PostPage({Key? key, required this.post}) : super(key: key);
+  const PostPage({Key? key, required this.post}) : super(key: key);
   final Post post;
 
   @override
@@ -25,10 +25,10 @@ class _PostPageState extends State<PostPage> {
   List<Comment>? comments;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   PersistentBottomSheetController? _controller;
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _fieldNameCtr = TextEditingController();
-  TextEditingController _fieldEmailCtr = TextEditingController();
-  TextEditingController _fieldCommentCtr = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _fieldNameCtr = TextEditingController();
+  final TextEditingController _fieldEmailCtr = TextEditingController();
+  final TextEditingController _fieldCommentCtr = TextEditingController();
 
   void toggleBottomSheet() {
     if (_controller == null) {
@@ -43,32 +43,33 @@ class _PostPageState extends State<PostPage> {
   void _submitForm() {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        Comment comment = Comment(
+        final Comment comment = Comment(
           widget.post.id,
           23242,
           _fieldNameCtr.text,
           _fieldEmailCtr.text,
           _fieldCommentCtr.text,
         );
-        print(json.encode(comment));
+        //print(json.encode(comment));
       }
     }
   }
 
   String? _validateEmail(value) {
-    if (value == '')
+    if (value == '') {
       return 'Input your email';
-    else {
+    } else {
       bool correctEmail = false;
       value.split('').forEach((_symbol) {
         if (_symbol == '@') {
           correctEmail = true;
         }
       });
-      if (correctEmail)
+      if (correctEmail) {
         return null;
-      else
+      } else {
         return 'Incorrect email';
+      }
     }
   }
 
@@ -143,7 +144,7 @@ class _PostPageState extends State<PostPage> {
                   ),
                   child: ElevatedButton(
                     onPressed: toggleBottomSheet,
-                    child: Text('Add comment'),
+                    child: const Text('Add comment'),
                   ),
                 ),
               )
@@ -157,15 +158,15 @@ class _PostPageState extends State<PostPage> {
   List<Widget> _buildComments(BuildContext context, List<Comment>? comments) {
     if (comments == null) {
       return [
-        Center(
+        const Center(
           child: Text(
             'Loading...',
           ),
         )
       ];
     } else {
-      List<Widget> listOfComments = [];
-      for (Comment comment in comments) {
+      final List<Widget> listOfComments = [];
+      for (final Comment comment in comments) {
         listOfComments.add(_buildComment(context, comment));
       }
       return listOfComments;
@@ -221,34 +222,36 @@ class _PostPageState extends State<PostPage> {
               children: [
                 TextFormField(
                   controller: _fieldNameCtr,
-                  decoration: InputDecoration(labelText: 'name'),
+                  decoration: const InputDecoration(labelText: 'name'),
                   validator: (value) {
-                    if (value == '')
+                    if (value == '') {
                       return 'Input your name';
-                    else
+                    } else {
                       return null;
+                    }
                   },
                 ),
                 TextFormField(
                   controller: _fieldEmailCtr,
-                  decoration: InputDecoration(labelText: 'email'),
+                  decoration: const InputDecoration(labelText: 'email'),
                   validator: _validateEmail,
                 ),
                 TextFormField(
                   controller: _fieldCommentCtr,
-                  decoration: InputDecoration(labelText: 'comment'),
+                  decoration: const InputDecoration(labelText: 'comment'),
                   validator: (value) {
-                    if (value == '')
+                    if (value == '') {
                       return 'Input your comment';
-                    else
+                    } else {
                       return null;
+                    }
                   },
                 ),
                 Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
                   child: ElevatedButton(
                     onPressed: _submitForm,
-                    child: Text("Send"),
+                    child: const Text("Send"),
                   ),
                 )
               ],
