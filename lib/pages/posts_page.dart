@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:test_app/classes.dart';
 import 'package:test_app/helpers/post_preview.dart';
+import 'package:test_app/prefs.dart';
 
 class PostsPage extends StatefulWidget {
   static const routeName = '/posts';

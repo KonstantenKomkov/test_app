@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 // Project imports:
 import 'package:test_app/classes.dart';
 import 'package:test_app/constants.dart';
+import 'package:test_app/prefs.dart';
 
 class AlbumPage extends StatefulWidget {
   static const routeName = '/album';

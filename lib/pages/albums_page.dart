@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:test_app/classes.dart';
 import 'package:test_app/helpers/album_preview.dart';
 import 'package:test_app/helpers/get_logo_by_id.dart';
+import 'package:test_app/prefs.dart';
 
 class AlbumsPage extends StatefulWidget {
   static const routeName = '/albums';

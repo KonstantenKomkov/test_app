@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:test_app/classes.dart';
+import 'package:test_app/prefs.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({Key? key}) : super(key: key);
@@ -67,7 +68,9 @@ class _UsersPageState extends State<UsersPage> {
         style: Theme.of(context).textTheme.headline4,
       );
     } else {
-      return const CircularProgressIndicator();
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
   }
 

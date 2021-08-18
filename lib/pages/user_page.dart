@@ -8,6 +8,7 @@ import 'package:test_app/constants.dart';
 import 'package:test_app/helpers/album_preview.dart';
 import 'package:test_app/helpers/get_logo_by_id.dart';
 import 'package:test_app/helpers/post_preview.dart';
+import 'package:test_app/prefs.dart';
 import 'package:test_app/helpers/text_element.dart';
 
 class UserPage extends StatefulWidget {
@@ -126,7 +127,7 @@ class _UserPageState extends State<UserPage> {
               ),
               buildTextElement(
                 context,
-                '${widget.user.address.city}, ${widget.user.address.street}, ${widget.user.address.suite}, ${widget.user.address.zipcode}',
+                '${widget.user.address.city}, ${widget.user.address.street}, ${widget.user.address.suite}, ${widget.user.address.zipCode}',
                 14,
                 FontWeight.normal,
                 kDefaultPadding * 2,

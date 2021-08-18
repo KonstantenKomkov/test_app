@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:test_app/classes.dart';
 import 'package:test_app/constants.dart';
 import 'package:test_app/helpers/text_element.dart';
+import 'package:test_app/prefs.dart';
 
 class PostPage extends StatefulWidget {
   static const routeName = '/post';
@@ -44,11 +45,11 @@ class _PostPageState extends State<PostPage> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         final Comment comment = Comment(
-          widget.post.id,
-          23242,
-          _fieldNameCtr.text,
-          _fieldEmailCtr.text,
-          _fieldCommentCtr.text,
+          postId: widget.post.id,
+          id: 23242,
+          name: _fieldNameCtr.text,
+          email: _fieldEmailCtr.text,
+          body: _fieldCommentCtr.text,
         );
         //print(json.encode(comment));
       }
