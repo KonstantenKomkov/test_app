@@ -8,7 +8,11 @@ class Company {
   String catchPhrase;
   String bs;
 
-  Company({required this.name, required this.catchPhrase, required this.bs});
+  Company({
+    required this.name,
+    required this.catchPhrase,
+    required this.bs,
+  });
 
   factory Company.fromJson(Map<String, dynamic> json) =>
       _$CompanyFromJson(json);
@@ -25,7 +29,10 @@ class Geo {
       name: 'lng', fromJson: _fromStringToDouble, toJson: _fromDoubleToString)
   double longitude;
 
-  Geo({required this.latitude, required this.longitude});
+  Geo({
+    required this.latitude,
+    required this.longitude,
+  });
 
   static double _fromStringToDouble(String value) {
     return double.parse(value);
@@ -50,12 +57,13 @@ class Address {
 
   Geo geo;
 
-  Address(
-      {required this.street,
-      required this.suite,
-      required this.city,
-      required this.zipCode,
-      required this.geo});
+  Address({
+    required this.street,
+    required this.suite,
+    required this.city,
+    required this.zipCode,
+    required this.geo,
+  });
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
@@ -76,15 +84,16 @@ class User {
   Company company;
   Address address;
 
-  User(
-      {required this.id,
-      required this.name,
-      required this.userName,
-      required this.email,
-      required this.phone,
-      required this.website,
-      required this.company,
-      required this.address});
+  User({
+    required this.id,
+    required this.name,
+    required this.userName,
+    required this.email,
+    required this.phone,
+    required this.website,
+    required this.company,
+    required this.address,
+  });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
@@ -97,11 +106,12 @@ class Post {
   String title;
   String body;
 
-  Post(
-      {required this.userId,
-      required this.id,
-      required this.title,
-      required this.body});
+  Post({
+    required this.userId,
+    required this.id,
+    required this.title,
+    required this.body,
+  });
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
@@ -127,12 +137,13 @@ class Comment {
   String email;
   String body;
 
-  Comment(
-      {required this.postId,
-      required this.id,
-      required this.name,
-      required this.email,
-      required this.body});
+  Comment({
+    required this.postId,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.body,
+  });
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
@@ -147,12 +158,13 @@ class Photo {
   String url;
   String thumbnailUrl;
 
-  Photo(
-      {required this.albumId,
-      required this.id,
-      required this.title,
-      required this.url,
-      required this.thumbnailUrl});
+  Photo({
+    required this.albumId,
+    required this.id,
+    required this.title,
+    required this.url,
+    required this.thumbnailUrl,
+  });
 
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
